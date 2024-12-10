@@ -1,0 +1,13 @@
+{% extends 'form_template.html' %}
+
+{% block title %}Game list - edit a Publisher{% endblock %}
+
+{% block sub-title %}edit a Publisher{% endblock %}
+
+{% block form %}
+<form action="{% url 'game_list_app:edit_publisher' pk %}" method="post">
+    {% csrf_token %}
+    {{ form }}
+    <input class="btn-action" type="submit" value="Submit">
+</form>
+{% endblock %}

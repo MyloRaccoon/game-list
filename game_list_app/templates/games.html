@@ -1,0 +1,19 @@
+{% extends 'index.html' %}
+
+{% block title %}Game list - Games{% endblock %}
+
+{% block content %}
+
+<h1>Games</h1>
+<a class="btn-action" href="{% url 'game_list_app:add_game' %}">Add a game</a>
+{% if games %}
+    <ul>
+    {% for game in games %}
+        <li><a href="{% url 'game_list_app:game_detail' game.id %}">{{ game }}</a></li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>No games here :(</p>
+{% endif %}
+
+{% endblock %}

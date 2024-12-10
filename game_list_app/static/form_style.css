@@ -1,0 +1,114 @@
+body {
+    background-color: #0e0e0e;
+    font-family: "Doppio One", sans-serif;
+    color: #7642EF;
+    padding: 0;
+    margin: 0;
+}
+
+body a {
+    color: #7642EF;
+}
+
+body a:visited {
+    color: #7642EF;
+}
+
+body a:active {
+    color: #7642EF;
+}
+
+header {
+    background-color: #0e0e0e;
+    display: flex;
+    align-items: center;
+    position: relative; /* Nécessaire pour la centralisation absolue */
+    height: 80px;
+    padding: 0 20px; /* Pour ajouter un espace autour du contenu */
+}
+
+.page-subtitle {
+    position: absolute;
+    left: 50%; 
+    transform: translateX(-50%);
+    margin: 0; 
+    text-align: center; 
+}
+
+.content {
+    display: flex;
+    justify-content: center;
+    margin: 0px;
+    padding: 50px;
+    padding-bottom: 150px;
+    background-color: #1f1f1f;
+}
+
+.form {
+    margin: 10px;
+    width: 100%;
+    border: 5px solid #0e0e0e;
+    background-color: #0e0e0e;
+    border-radius: 10px;
+    padding: 20px;
+}
+
+.form label {
+    font-size: 25px;
+}
+
+.side {
+    margin: 10px;
+    width: 100%;
+/*    border: 5px solid #0e0e0e;
+    background-color: #0e0e0e;
+    border-radius: 10px;
+*/    padding: 20px;
+}
+
+input[type=text], input[type=password], input[type=email], input[type=number], select {
+    height: 25px;
+    border: 2px solid #7642EF;
+    background-color: #0e0e0e;
+    color: #7642EF;
+    font-size: 15px;
+    border-radius: 10px;
+}
+
+
+.btn-action {
+    text-decoration: none;
+    color: #1f1f1f;
+    border: none;
+    background-color: #7642EF;
+    padding-left: 15px;
+    padding-right: 15px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.btn-action:hover {
+    color: #1f1f1f;
+    background-color: #a08cce; 
+}
+
+.btn-action:active {
+    color: #1f1f1f;
+    background-color: #a08cce; 
+}
+
+.btn-action:visited {
+    color: #1f1f1f;
+}
+
+footer {
+    text-align: center;
+    padding: 1rem;
+    border-top: 2px solid #7642EF;
+}
+footer p {
+    margin: 0;
+}

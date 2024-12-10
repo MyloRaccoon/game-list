@@ -1,0 +1,25 @@
+{% extends 'index.html' %}
+
+{% block title %}Game list - {{ platform }}{% endblock %}
+
+{% block content %}
+
+<h1>{{ platform.name }}</h1>
+<ul>
+
+	<li><p>Release date : {{ platform.release_date }}</p></li>
+	{% if platform.owner is not None %}
+	<li>
+		<p>Owner : <a href="{% url 'game_list_app:publisher_detail' platform.owner.id  %}"> {{ platform.owner }} </a></p>
+	</li>
+	{% else %}
+		<li><p>Owner : {{ platform.owner }}</p></li>
+	{% endif %}
+
+	<li><p>Description : {{ platform.description }}</p></li>
+
+</ul>
+<a class="btn-action" href="{% url 'game_list_app:edit_platform' platform.id %}">Edit</a>
+<a class="btn-action" href="{% url 'game_list_app:delete_platform' platform.id %}">Delete</a>
+
+{% endblock %}

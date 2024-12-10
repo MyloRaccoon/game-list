@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Game List{% endblock %}</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'index_style.css' %}">
+</head>
+<body>
+    <header>
+        <h1>Game List</h1>
+        <nav>
+            <ul>
+            <li><a href="{% url 'game_list_app:home' %}" 
+                   class="{% if request.resolver_match.url_name == 'home' %}active{% endif %}">HOME</a></li>
+            <li><a href="{% url 'game_list_app:game_list' %}" 
+                   class="{% if request.resolver_match.url_name == 'game_list' %}active{% endif %}">GAMES</a></li>
+            <li><a href="{% url 'game_list_app:platform_list' %}" 
+                   class="{% if request.resolver_match.url_name == 'platform_list' %}active{% endif %}">PLATFORMS</a></li>
+            <li><a href="{% url 'game_list_app:publisher_list' %}" 
+                   class="{% if request.resolver_match.url_name == 'publisher_list' %}active{% endif %}">PUBLISHERS</a></li>
+            </ul>
+        </nav>
+        <div class="account-btn">
+            {% if not user.is_authenticated %}
+                <a href="{% url 'login'%}">Log in</a>
+                <a href="{% url 'game_list_app:signup'%}">Sign up</a>
+            {% else %}
+                <form id="logout-form" method="post" action="{% url 'logout' %}">
+                 {% csrf_token %}
+                 <button type="submit" class="btn btn-link">Log-out</button>
+               </form>
+            {% endif %}
+        </div>
+    </header>
+
+    <div class="content">
+        {% block content %}{% endblock %}
+    </div>
+
+    <footer>
+        <p>&copy; 2024 cool footer c:</p>
+    </footer>
+</body>
+</html>

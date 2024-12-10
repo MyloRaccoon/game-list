@@ -1,0 +1,36 @@
+{% extends 'index.html' %}
+
+{% block title %}Game list - {{ game }}{% endblock %}
+
+{% block content %}
+<h1>{{ game.title }}</h1>
+<ul>
+	<li><p>Genre : {{ game.genre }}</p></li>
+
+	{% if game.publisher is not None %}
+	<li>
+		<p>Publisher : <a href="{% url 'game_list_app:publisher_detail' game.publisher.id %}"> {{ game.publisher }} </a></p>
+	</li>
+	{% else %}
+	<li>
+		<p>Publisher : {{ game.publisher }} </a></p>
+	</li>
+	{% endif %}
+
+	{% if game.platform is not None %}
+	<li>
+		<p>Platform : <a href="{% url 'game_list_app:platform_detail' game.platform.id %}"> {{ game.platform }} </a></p>
+	</li>
+	{% else %}
+	<li>
+		<p>Platform : {{ game.platform }} </a></p>
+	</li>
+	{% endif %}
+
+	<li><p>Release date : {{ game.release_date }}</p></li>
+
+	<li><p>Description : {{ game.description }}</p></li>
+</ul>
+<a class="btn-action" href="{% url 'game_list_app:edit_game' game.id %}">Edit</a>
+<a class="btn-action" href="{% url 'game_list_app:delete_game' game.id %}">Delete</a>
+{% endblock %}

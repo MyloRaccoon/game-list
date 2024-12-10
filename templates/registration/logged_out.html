@@ -1,0 +1,11 @@
+{% extends 'form_template.html' %}
+
+{% block title %}Game list - Log out{% endblock %}
+
+{% block sub-title %}Log out{% endblock %}
+
+{% block form %}
+  <p>Logged out!</p>
+  <a class="btn-action" href="{% url 'login'%}">log in.</a>
+  <a class="btn-action" href="{% url 'game_list_app:home' %}">home</a>
+{% endblock %}

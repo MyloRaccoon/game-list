@@ -1,0 +1,19 @@
+{% extends 'index.html' %}
+
+{% block title %}Game list - Publishers{% endblock %}
+
+{% block content %}
+
+<h1>Publishers</h1>
+<a class="btn-action" href="{% url 'game_list_app:add_publisher' %}">Add a publisher</a>
+{% if publishers %}
+    <ul>
+    {% for publisher in publishers %}
+        <li><a href="{% url 'game_list_app:publisher_detail' publisher.id %}">{{ publisher }}</a></li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>No publisher here :(</p>
+{% endif %}
+
+{% endblock %}

@@ -1,0 +1,11 @@
+{% extends 'index.html' %}
+
+{% block title %}Game list - {{ publisher }}{% endblock %}
+
+{% block content %}
+
+<h1>{{ publisher.name }}</h1>
+<p>Description : {{ publisher.description }}</p>
+<a class="btn-action" href="{% url 'game_list_app:edit_publisher' publisher.id %}">Edit</a>
+<a class="btn-action" href="{% url 'game_list_app:delete_publisher' publisher.id %}">Delete</a>
+{% endblock %}

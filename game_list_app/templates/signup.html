@@ -1,0 +1,20 @@
+{% extends 'form_template.html' %}
+
+{% block title %}Game list - Sign up{% endblock %}
+
+{% block sub-title %}Sign up{% endblock %}
+
+{% block form %}
+<form method="post" action="{% url 'game_list_app:signup' %}">
+  {% csrf_token %}
+  {{ form }}
+  <input class="btn-action" type="submit" value="Sign up">
+  <input type="hidden" name="next" value="{{ next }}">
+</form>
+<p><a href="{% url 'login' %}">Already have an account?</a></p>
+{% endblock %}
+
+{% block side %}
+<p>sing up pwease</p>
+<p>this is good site i pwomise</p>
+{% endblock %}

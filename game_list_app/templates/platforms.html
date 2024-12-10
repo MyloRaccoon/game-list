@@ -1,0 +1,19 @@
+{% extends 'index.html' %}
+
+{% block title %}Game list - Platforms{% endblock %}
+
+{% block content %}
+
+<h1>Platforms</h1>
+<a class="btn-action" href="{% url 'game_list_app:add_platform' %}">Add a platform</a>
+{% if platforms %}
+    <ul>
+    {% for platform in platforms %}
+        <li><a href="{% url 'game_list_app:platform_detail' platform.id %}">{{ platform }}</a></li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>No platform here :(</p>
+{% endif %}
+
+{% endblock %}

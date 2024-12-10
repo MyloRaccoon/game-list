@@ -1,0 +1,36 @@
+{% extends 'form_template.html' %}
+
+{% block title %}Game list - Log in{% endblock %}
+
+{% block sub-title %}Log in{% endblock %}
+
+{% block form %}
+  <form method="post" action="{% url 'login' %}">
+    {% if form.errors %}
+      <p class="error">Your username and password didn't match. Please try again.</p>
+    {% endif %}
+
+    {% if next %}
+      {% if user.is_authenticated %}
+        <p class="error">Your account doesn't have access to this page. To proceed,
+        please login with an account that has access.</p>
+      {% else %}
+        <p class="error">Please login to see this page.</p>
+      {% endif %}
+    {% endif %}
+
+    {% csrf_token %}
+    {{ form }}
+    <input class="btn-action" type="submit" value="login">
+    <input class="btn-action" type="hidden" name="next" value="{{ next }}">
+    
+    <p><a href="{% url 'game_list_app:signup' %}">Doesn't have an account yet?</a></p>
+    <p><a href="{% url 'password_reset' %}">Lost password?</a></p>
+  </form>
+{% endblock %}
+
+{% block side %}
+<p>Happy to see you again</p>
+{% endblock %}
+
+

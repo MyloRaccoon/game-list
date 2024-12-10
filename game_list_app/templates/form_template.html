@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Game List{% endblock %}</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'form_style.css' %}">
+</head>
+<body>
+    <header>
+        <h1 class=site-title>Game List</h1>
+        <h3 class=page-subtitle>{% block sub-title %}{% endblock %}</h3>
+    </header>
+
+    <div class="content">
+        <div class="form">
+            {% block form %}{% endblock %}
+        </div>
+        <div class="side">
+            {% block side %}{% endblock %}
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2024 cool footer c:</p>
+    </footer>
+</body>
+</html>
