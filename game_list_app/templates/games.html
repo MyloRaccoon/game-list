@@ -5,7 +5,7 @@
 {% block content %}
 
 <h1>Games</h1>
-<a class="btn-action" href="{% url 'game_list_app:add_game' %}">Add a game</a>
+<a class="btn-action" href="{% url 'game_list_app:add_item' 'game' %}">Add a game</a>
 {% if games %}
     <ul>
     {% for game in games %}

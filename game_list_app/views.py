@@ -54,58 +54,81 @@ class PublisherDetail(generic.DetailView):
 	template_name = "publisher.html"
 
 
-def add_publisher(request):
-	# if this is a POST request we need to process the form data
+def add_publisher(name, description):
+	publisher = Publisher(name = name, description = description)
+	publisher.save()
+	return publisher.id
+
+def add_platform(name, release_date, owner, description):
+	platform = Platform(
+		name = name, 
+		release_date = release_date,
+		owner = owner,
+		description = description
+	)
+	platform.save()
+	return platform.id
+
+def add_game(title, genre, publisher, platform, release_date, description):
+	game = Game(
+		title = title,
+		genre = genre,
+		publisher = publisher,
+		platform = platform,
+		release_date = release_date,
+		description = description
+	)
+	game.save()
+	return game.id
+
+
+def add_item(request, item):
+	form_class_map = {
+		"game": GameForm,
+		"platform": PlatformForm,
+		"publisher": PublisherForm,
+	}
+	process_data_function_map = {
+		"game": add_game,
+		"platform": add_platform,
+		"publisher": add_publisher,
+	}
+	response_url_map = {
+		"game": "game_list_app:game_detail",
+		"platform": "game_list_app:platform_detail",
+		"publisher": "game_list_app:publisher_detail",
+	}
+
+	if item not in form_class_map:
+		raise Http404("Invalid item type.")
+
+	# Récupérer les composants dynamiquement
+	form_class = form_class_map[item]
+	process_data_function = process_data_function_map[item]
+	response_url = response_url_map[item]
+
+	# URL pour l'action du formulaire
+	loopback_url = reverse("game_list_app:add_item", args=[item])
+
 	if request.method == "POST":
-		# create a form instance and populate it with data from the request:
-		form = PublisherForm(request.POST)
-		# check whether it's valid:
+		# Créer une instance du formulaire avec les données POST
+		form = form_class(request.POST)
 		if form.is_valid():
-			# process the data in form.cleaned_data as required
-			name = form.cleaned_data["name"]
-			description = form.cleaned_data["description"]
-			publisher = Publisher(name = name, description = description)
-			publisher.save()
-			# redirect to a new URL:
-			return HttpResponseRedirect(reverse("game_list_app:publisher_detail", args=[publisher.id]))
-
-	# if a GET (or any other method) we'll create a blank form
+			# Processus d'ajout en fonction de l'`item`
+			item_id = process_data_function(**form.cleaned_data)
+			# Redirection vers la page de détail
+			return HttpResponseRedirect(reverse(response_url, args=[item_id]))
 	else:
-		form = PublisherForm()
+		# Formulaire vide pour une requête GET
+		form = form_class()
 
-	return render(request, "add_publisher_form.html", {"form": form})
+	context = {
+		"form": form,
+		"item": item,
+		"loopback_url": loopback_url,
+	}
 
-def add_platform(request):
-	if request.method == "POST":
-		form = PlatformForm(request.POST)
-		if form.is_valid():
-			name = form.cleaned_data["name"]
-			release_date = form.cleaned_data.get("release_date")
-			owner = form.cleaned_data.get("owner")
-			description = form.cleaned_data.get("description")
-			Platform(name=name, release_date=release_date, owner=owner, description = description).save()
-			return HttpResponseRedirect(reverse("game_list_app:home"))
-	else:
-		form = PlatformForm()
-
-	return render(request, "add_platform_form.html", {"form": form})
-
-def add_game(request):
-	if request.method == "POST":
-		form = GameForm(request.POST)
-		if form.is_valid():
-			title = form.cleaned_data["title"]
-			genre = form.cleaned_data.get("genre")
-			publisher = form.cleaned_data.get("publisher")
-			platform = form.cleaned_data.get("platform")
-			release_date = form.cleaned_data.get("release_date")
-			description = form.cleaned_data.get("description")
-			Game(title=title, genre=genre, publisher=publisher, platform=platform, release_date=release_date, description = description).save()
-			return HttpResponseRedirect(reverse("game_list_app:home"))
-	else:
-		form = GameForm()
-
-	return render(request, "add_game_form.html", {"form": form})
+	return render(request, "add_form.html", context)
 
 
 def edit_publisher(request, pk):

@@ -5,7 +5,7 @@
 {% block content %}
 
 <h1>Platforms</h1>
-<a class="btn-action" href="{% url 'game_list_app:add_platform' %}">Add a platform</a>
+<a class="btn-action" href="{% url 'game_list_app:add_item' 'platform' %}">Add a platform</a>
 {% if platforms %}
     <ul>
     {% for platform in platforms %}

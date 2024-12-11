@@ -14,9 +14,11 @@ urlpatterns = [
 	path("platform/<int:pk>/", views.PlatformDetail.as_view(), name = "platform_detail"),
 	path("publisher/<int:pk>/", views.PublisherDetail.as_view(), name = "publisher_detail"),
 
-	path("publisher/add/", views.add_publisher, name = "add_publisher"),
-	path("platform/add/", views.add_platform, name = "add_platform"),
-	path("game/add/", views.add_game, name = "add_game"),
+	path("<str:item>/add/", views.add_item, name = "add_item"),
+
+	# path("publisher/add/", views.add_publisher, name = "add_publisher"),
+	# path("platform/add/", views.add_platform, name = "add_platform"),
+	# path("game/add/", views.add_game, name = "add_game"),
 
 	path("publisher/edit/<int:pk>/", views.edit_publisher, name = "edit_publisher"),
 	path("platform/edit/<int:pk>/", views.edit_platform, name = "edit_platform"),
