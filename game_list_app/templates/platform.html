@@ -19,7 +19,7 @@
 	<li><p>Description : {{ platform.description }}</p></li>
 
 </ul>
-<a class="btn-action" href="{% url 'game_list_app:edit_platform' platform.id %}">Edit</a>
+<a class="btn-action" href="{% url 'game_list_app:edit_item' 'platform' platform.id %}">Edit</a>
 <a class="btn-action" href="{% url 'game_list_app:delete_platform' platform.id %}">Delete</a>
 
 {% endblock %}
