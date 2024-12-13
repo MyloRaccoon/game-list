@@ -61,3 +61,10 @@ class SignInForm(forms.Form):
             }
         )) 
 
+class GameListForm(forms.ModelForm):
+    class Meta:
+        model = GameList
+        fields = ['state']  
+        widgets = {
+            'state': forms.Select(attrs={'class': 'form-control'})
+        }

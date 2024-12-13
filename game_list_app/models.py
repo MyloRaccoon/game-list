@@ -66,8 +66,23 @@ class Game(models.Model):
 	def __str__(self):
 		return self.title
 
+class GameList(models.Model):
+	class State(models.TextChoices):
+		WANT = "want", "Want to play"
+		PLAYING = "playing", "Playing"
+		FINISHED = "finished", "Finished"
+		HUNDRED = "hundred", "100%"
+
+	user = models.ForeignKey(User, on_delete=models.CASCADE)
+	game = models.ForeignKey(Game, on_delete=models.CASCADE)
+	state = models.CharField(
+        choices=State.choices,
+        default=State.PLAYING,
+        max_length=10
+    )
+
 # class Rating(models.Model):
-# 	user = models.ForeignKey(User, on_delete=models.CASCADE)
+# 	user = models.ForeignKey(User, blank=True, null=True, on_delete=models.CASCADE)
 # 	game = models.ForeignKey(Game, on_delete=models.CASCADE)
 # 	grade = models.IntegerField()
 	

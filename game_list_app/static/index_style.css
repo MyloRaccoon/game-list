@@ -20,14 +20,16 @@ body a:active {
 
 header {
     background-color: #0e0e0e;
+    text-decoration: none;
     display: flex;
     align-items: center;
 /*    justify-content: space-between;*/
     height: 80px;
 }
 
-header h1 {
+.title {
     padding: 10px;
+    text-decoration: none;
 }
 
 nav {

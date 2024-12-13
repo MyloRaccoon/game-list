@@ -318,3 +318,19 @@ def signup(request):
 		form = SignInForm()
 
 	return render(request, "signup.html", {"form": form})
+
+def add_to_list(request, game_id):
+    game = get_object_or_404(Game, pk=game_id)
+
+    if request.method == "POST":
+        form = GameListForm(request.POST)
+        if form.is_valid():
+            game_list = form.save(commit=False)
+            game_list.user = request.user
+            game_list.game = game  
+            game_list.save()
+            return redirect('game_list_app:home')
+    else:
+        form = GameListForm()
+
+    return render(request, 'list_add.html', {'form': form, 'game': game})

@@ -1,0 +1,46 @@
+{% extends 'form_template.html' %}
+
+{% block title %}Game list - add to list{% endblock %}
+
+{% block sub-title %}add {{ game }} to list{% endblock %}
+
+{% block form %}
+<form method="post">
+    {% csrf_token %}
+    <p>
+        {{ form.state.label_tag }}<br>
+        {{ form.state }}
+    </p>
+    <button type="submit">Add to list</button>
+</form>
+{% endblock %}
+
+{% block side %}
+<ul>
+    <li><p>Genre : {{ game.genre }}</p></li>
+
+    {% if game.publisher is not None %}
+    <li>
+        <p>Publisher : <a href="{% url 'game_list_app:publisher_detail' game.publisher.id %}"> {{ game.publisher }} </a></p>
+    </li>
+    {% else %}
+    <li>
+        <p>Publisher : {{ game.publisher }} </a></p>
+    </li>
+    {% endif %}
+
+    {% if game.platform is not None %}
+    <li>
+        <p>Platform : <a href="{% url 'game_list_app:platform_detail' game.platform.id %}"> {{ game.platform }} </a></p>
+    </li>
+    {% else %}
+    <li>
+        <p>Platform : {{ game.platform }} </a></p>
+    </li>
+    {% endif %}
+
+    <li><p>Release date : {{ game.release_date }}</p></li>
+
+    <li><p>Description : {{ game.description }}</p></li>
+</ul>
+{% endblock %}

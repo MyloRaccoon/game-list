@@ -27,6 +27,11 @@ header {
     padding: 0 20px; /* Pour ajouter un espace autour du contenu */
 }
 
+.title {
+    padding: 10px;
+    text-decoration: none;
+}
+
 .page-subtitle {
     position: absolute;
     left: 50%; 
@@ -60,10 +65,7 @@ header {
 .side {
     margin: 10px;
     width: 100%;
-/*    border: 5px solid #0e0e0e;
-    background-color: #0e0e0e;
-    border-radius: 10px;
-*/    padding: 20px;
+    padding: 20px;
 }
 
 input[type=text], input[type=password], input[type=email], input[type=number], select {

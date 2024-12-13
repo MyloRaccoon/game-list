@@ -24,6 +24,8 @@ urlpatterns = [
 
 	path("delete-db/", views.delete_db, name = "delete_db"),
 
+	path("add-to-list/<int:game_id>", views.add_to_list, name="add_to_list"),
+
 	path("signup/", views.signup, name="signup"),
 
 	path('error/<str:error>/', views.error, name = "error"),
