@@ -16,15 +16,7 @@ urlpatterns = [
 
 	path("<str:item>/add/", views.add_item, name = "add_item"),
 
-	# path("publisher/add/", views.add_publisher, name = "add_publisher"),
-	# path("platform/add/", views.add_platform, name = "add_platform"),
-	# path("game/add/", views.add_game, name = "add_game"),
-
 	path("<str:item_type>/edit/<int:pk>", views.edit_item, name = "edit_item"),
-
-	# path("publisher/edit/<int:pk>/", views.edit_publisher, name = "edit_publisher"),
-	# path("platform/edit/<int:pk>/", views.edit_platform, name = "edit_platform"),
-	# path("game/edit/<int:pk>/", views.edit_game, name = "edit_game"),
 
 	path("publisher/delete/<int:pk>/", views.delete_publisher, name = "delete_publisher"),
 	path("platform/delete/<int:pk>/", views.delete_platform, name = "delete_platform"),
@@ -33,4 +25,6 @@ urlpatterns = [
 	path("delete-db/", views.delete_db, name = "delete_db"),
 
 	path("signup/", views.signup, name="signup"),
+
+	path('error/<str:error>/', views.error, name = "error"),
 ]

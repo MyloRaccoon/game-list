@@ -10,6 +10,17 @@ from .models import *
 from .forms import *
 
 
+def error(request, error):
+	error_msg = ""
+	for l in error:
+		if l == error[0]:
+			error_msg += l.upper()
+		elif l == '-' or l == '_':
+			error_msg += ' '
+		else:
+			error_msg += l
+	return render(request, "error.html", {"error": error_msg})
+
 class Home(generic.ListView):
 	template_name = "home.html"
 	context_object_name = "latest_games"
@@ -24,6 +35,7 @@ class GameList(generic.ListView):
 
 	def get_queryset(self):
 		return Game.objects.order_by("-add_date")
+
 
 class PlatformList(generic.ListView):
 	template_name = "platforms.html"
@@ -44,31 +56,52 @@ class GameDetail(generic.DetailView):
 	model = Game
 	template_name = "game.html"
 
+	def get_context_data(self, **kwargs):
+		context = super().get_context_data(**kwargs)
+		game = self.object
+		user = self.request.user
+		context["user_is_owner"] = game.user_owner == user 
+		return context
+
 class PlatformDetail(generic.DetailView):
 	model = Platform
 	template_name = "platform.html"
+
+	def get_context_data(self, **kwargs):
+		context = super().get_context_data(**kwargs)
+		platform = self.object
+		user = self.request.user
+		context["user_is_owner"] = platform.user_owner == user 
+		return context
 
 class PublisherDetail(generic.DetailView):
 	model = Publisher
 	template_name = "publisher.html"
 
+	def get_context_data(self, **kwargs):
+		context = super().get_context_data(**kwargs)
+		publisher = self.object
+		user = self.request.user
+		context["user_is_owner"] = publisher.user_owner == user 
+		return context
 
-def add_publisher(name, description):
+
+def add_publisher(user, name, description):
 	publisher = Publisher(name = name, description = description)
-	publisher.save()
+	publisher.save(user = user)
 	return publisher.id
 
-def add_platform(name, release_date, owner, description):
+def add_platform(user, name, release_date, owner, description):
 	platform = Platform(
 		name = name, 
 		release_date = release_date,
 		owner = owner,
 		description = description
 	)
-	platform.save()
+	platform.save(user = user)
 	return platform.id
 
-def add_game(title, genre, publisher, platform, release_date, description):
+def add_game(user, title, genre, publisher, platform, release_date, description):
 	game = Game(
 		title = title,
 		genre = genre,
@@ -77,7 +110,7 @@ def add_game(title, genre, publisher, platform, release_date, description):
 		release_date = release_date,
 		description = description
 	)
-	game.save()
+	game.save(user = user)
 	return game.id
 
 
@@ -108,7 +141,7 @@ def add_item(request, item):
 	if request.method == "POST":
 		form = form_class(request.POST)
 		if form.is_valid():
-			item_id = process_data_function(**form.cleaned_data)
+			item_id = process_data_function(request.user, **form.cleaned_data)
 			return HttpResponseRedirect(reverse(response_url, args=[item_id]))
 	else:
 		form = form_class()
@@ -217,8 +250,12 @@ def edit_item(request, item_type, pk):
 	if request.method == "POST":
 		form = form_class(request.POST)
 		if form.is_valid():
-			process_data_function(pk, **form.cleaned_data)
-			return HttpResponseRedirect(reverse(response_url, args=[pk]))
+			if request.user == item.user_owner or request.user.is_staff:
+				process_data_function(pk, **form.cleaned_data)
+				return HttpResponseRedirect(reverse(response_url, args=[pk]))
+			else:
+				return HttpResponseRedirect(reverse("game_list_app:error", args=["You don't have the autorisation to edit this item"]))
+			
 	else:
 		form = filled_form_function(pk)
 
@@ -231,25 +268,42 @@ def edit_item(request, item_type, pk):
 	return render(request, "edit_form.html", context)		
 
 def delete_publisher(request, pk):
-	Publisher.objects.get(pk=pk).delete()
-	return HttpResponseRedirect(reverse("game_list_app:home"))
+	publiser = get_object_or_404(Publisher, pk=pk)
+
+	if request.user == publisher.user_owner or request.user.is_staff:
+		publisher.delete()
+		return HttpResponseRedirect(reverse("game_list_app:home"))
+	else:
+		return HttpResponseRedirect(reverse("game_list_app:error", args=["You don't have the autorisation to delete this item"]))
 
 def delete_platform(request, pk):
-	Platform.objects.get(pk=pk).delete()
-	return HttpResponseRedirect(reverse("game_list_app:home"))
+	platform = get_object_or_404(Platform, pk=pk)
+
+	if request.user == platform.user_owner or request.user.is_staff:
+		platform.delete()
+		return HttpResponseRedirect(reverse("game_list_app:home"))
+	else:
+		return HttpResponseRedirect(reverse("game_list_app:error", args=["You don't have the autorisation to delete this item"]))
 
 def delete_game(request, pk):
-	get_object_or_404(Game, pk=pk).delete()
-	return HttpResponseRedirect(reverse("game_list_app:home"))
+	game = get_object_or_404(Game, pk=pk)
+
+	if request.user == game.user_owner or request.user.is_staff:
+		game.delete()
+		return HttpResponseRedirect(reverse("game_list_app:home"))
+	else:
+		return HttpResponseRedirect(reverse("game_list_app:error", args=["You don't have the autorisation to delete this item"]))
 
 
 def delete_db(request):
-	Game.objects.all().delete()
-	Platform.objects.all().delete()
-	Publisher.objects.all().delete()
+	if request.user.is_staff:
+		Game.objects.all().delete()
+		Platform.objects.all().delete()
+		Publisher.objects.all().delete()
 
-	return HttpResponseRedirect(reverse("game_list_app:home"))
-
+		return HttpResponseRedirect(reverse("game_list_app:home"))
+	else:
+		return HttpResponseRedirect(reverse("game_list_app:error", args=["You don't have the autorisation to access this page"]))
 
 def signup(request):
 	if request.method == "POST":

@@ -6,6 +6,8 @@
 
 <h1>{{ publisher.name }}</h1>
 <p>Description : {{ publisher.description }}</p>
-<a class="btn-action" href="{% url 'game_list_app:edit_item' 'publisher' publisher.id %}">Edit</a>
-<a class="btn-action" href="{% url 'game_list_app:delete_publisher' publisher.id %}">Delete</a>
+{% if user_is_owner or user.is_staff %}
+	<a class="btn-action" href="{% url 'game_list_app:edit_item' 'publisher' publisher.id %}">Edit</a>
+	<a class="btn-action" href="{% url 'game_list_app:delete_publisher' publisher.id %}">Delete</a>
+{% endif %}
 {% endblock %}

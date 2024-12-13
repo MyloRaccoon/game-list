@@ -31,6 +31,8 @@
 
 	<li><p>Description : {{ game.description }}</p></li>
 </ul>
-<a class="btn-action" href="{% url 'game_list_app:edit_item' 'game' game.id %}">Edit</a>
-<a class="btn-action" href="{% url 'game_list_app:delete_game' game.id %}">Delete</a>
+{% if user_is_owner or user.is_staff %}
+	<a class="btn-action" href="{% url 'game_list_app:edit_item' 'game' game.id %}">Edit</a>
+	<a class="btn-action" href="{% url 'game_list_app:delete_game' game.id %}">Delete</a>
+{% endif %}
 {% endblock %}

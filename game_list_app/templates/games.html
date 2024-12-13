@@ -5,7 +5,11 @@
 {% block content %}
 
 <h1>Games</h1>
-<a class="btn-action" href="{% url 'game_list_app:add_item' 'game' %}">Add a game</a>
+
+{% if user.is_authenticated %}
+    <a class="btn-action" href="{% url 'game_list_app:add_item' 'game' %}">Add a game</a>
+{% endif %}
+
 {% if games %}
     <ul>
     {% for game in games %}
