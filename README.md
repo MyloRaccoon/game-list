@@ -1,4 +1,4 @@
-k# Game List
+# Game List
 
 List, rank and review the game you played !
 
@@ -8,10 +8,11 @@ The site isn't up yet, maybe one day it will.
   - Add, edit and delete game from global database
   - Create and connect to account
   - maybe password reset system is up ? I don't know
+  - Add / remove games to personnal list
 
 ## Still needs to be implemented:
-  - Add / remove games to personnal list
   - Rate / reviews list
+  - Better visualisation for items
 
 ## Bonus features:
 (some ideas that won't necessary be implemented)
