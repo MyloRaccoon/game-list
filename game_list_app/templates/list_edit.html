@@ -1,8 +1,8 @@
 {% extends 'form_template.html' %}
 
-{% block title %}Game list - add to list{% endblock %}
+{% block title %}Game list - Edit from list{% endblock %}
 
-{% block sub-title %}add {{ game }} to list{% endblock %}
+{% block sub-title %}Edit {{ game }} from list{% endblock %}
 
 {% block form %}
 <form method="post">
@@ -11,7 +11,8 @@
         {{ form.state.label_tag }}<br>
         {{ form.state }}
     </p>
-    <button class="btn-action" type="submit">Add to list</button>
+    <button class="btn-action" type="submit">Save</button>
+    <a class="btn-action" href="{% url 'game_list_app:delete_from_list' game.id %}"> Delete from list </a>
 </form>
 {% endblock %}
 

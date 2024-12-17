@@ -32,8 +32,14 @@
 	<li><p>Description : {{ game.description }}</p></li>
 </ul>
 {% if user.is_authenticated %}
-	<a class="btn-action" href="{% url 'game_list_app:add_to_list' game.id %}">+ Add to List</a>
+	{% if game_in_list %}
+		<p>State : {{ game_state }}</p>
+		<a class="btn-action" href="{% url 'game_list_app:edit_from_list' game.id %}">Edit from list</a>
+	{% else %}
+		<a class="btn-action" href="{% url 'game_list_app:add_to_list' game.id %}">+ Add to List</a>
+	{% endif %}
 {% endif %}
+
 {% if user_is_owner or user.is_staff %}
 	<a class="btn-action" href="{% url 'game_list_app:edit_item' 'game' game.id %}">Edit</a>
 	<a class="btn-action" href="{% url 'game_list_app:delete_game' game.id %}">Delete</a>

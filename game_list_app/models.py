@@ -76,10 +76,22 @@ class GameList(models.Model):
 	user = models.ForeignKey(User, on_delete=models.CASCADE)
 	game = models.ForeignKey(Game, on_delete=models.CASCADE)
 	state = models.CharField(
-        choices=State.choices,
-        default=State.PLAYING,
-        max_length=10
-    )
+		choices=State.choices,
+		default=State.PLAYING,
+		max_length=10
+	)
+
+	class Meta:
+		constraints = [
+			models.UniqueConstraint(fields=['user', 'game'], name='unique_user_game')
+		]
+
+def is_game_in_user_list(user, game):
+	return GameList.objects.filter(user=user, game=game).exists()
+
+def get_game_state(user, game):
+	game_list = GameList.objects.get(user=user, game=game)
+	return game_list.state
 
 # class Rating(models.Model):
 # 	user = models.ForeignKey(User, blank=True, null=True, on_delete=models.CASCADE)

@@ -1,0 +1,19 @@
+{% extends 'profil.html' %}
+
+{% block title %}Game list - Profil - List{% endblock %}
+
+{% block sub-title %}My List{% endblock %}
+
+{% block content %}
+
+	{% if games %}
+		<ul>
+			{% for game in games %}
+				<li><a href="{% url 'game_list_app:game_detail' game.id %}">{{ game }}</a></li>
+			{% endfor %}
+		</ul>
+	{% else %}
+		<p>Your list is empty :(</p>
+	{% endif %}
+
+{% endblock %} 

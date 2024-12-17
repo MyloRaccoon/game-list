@@ -41,7 +41,7 @@ class GameForm(forms.Form):
         )
     )
 
-class SignInForm(forms.Form):
+class SignUpForm(forms.Form):
     username = forms.CharField(max_length=100, 
         widget=forms.TextInput(
             attrs={

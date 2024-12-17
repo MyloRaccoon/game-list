@@ -1,5 +1,5 @@
 from django.shortcuts import render, get_object_or_404, redirect
-from django.http import HttpResponse, HttpResponseRedirect
+from django.http import HttpResponse, HttpResponseRedirect, Http404
 from django.views import generic
 from django.template import loader
 from django.urls import reverse
@@ -29,7 +29,7 @@ class Home(generic.ListView):
 		return Game.objects.order_by("-add_date")[:10]
 
 
-class GameList(generic.ListView):
+class GameListView(generic.ListView):
 	template_name = "games.html"
 	context_object_name = "games"
 
@@ -60,7 +60,11 @@ class GameDetail(generic.DetailView):
 		context = super().get_context_data(**kwargs)
 		game = self.object
 		user = self.request.user
-		context["user_is_owner"] = game.user_owner == user 
+		game_in_list = is_game_in_user_list(user, game)
+		context["user_is_owner"] = game.user_owner == user
+		context["game_in_list"] = game_in_list
+		if game_in_list:
+			context["game_state"] = get_game_state(user, game)
 		return context
 
 class PlatformDetail(generic.DetailView):
@@ -307,30 +311,70 @@ def delete_db(request):
 
 def signup(request):
 	if request.method == "POST":
-		form = SignInForm(request.POST)
+		form = SignUpForm(request.POST)
 		if form.is_valid():
 			username = form.cleaned_data.get("username")
-			email = form.cleaned_data.get("release_date")
+			email = form.cleaned_data.get("email")
 			password = form.cleaned_data.get("password")
-			User.objects.create_user(username, email, password).save()
-			return HttpResponseRedirect(reverse("login"))
+
+			if User.objects.filter(username=username).exists():
+				form.add_error('username', 'This username is not avaible.')
+			elif User.objects.filter(email=email).exists():
+				form.add_error('email', 'This email is already used.')
+			else:
+				User.objects.create_user(username, email, password).save()
+				return HttpResponseRedirect(reverse("login"))
 	else:
-		form = SignInForm()
+		form = SignUpForm()
 
 	return render(request, "signup.html", {"form": form})
 
 def add_to_list(request, game_id):
-    game = get_object_or_404(Game, pk=game_id)
+	game = get_object_or_404(Game, pk=game_id)
 
-    if request.method == "POST":
-        form = GameListForm(request.POST)
-        if form.is_valid():
-            game_list = form.save(commit=False)
-            game_list.user = request.user
-            game_list.game = game  
-            game_list.save()
-            return redirect('game_list_app:home')
-    else:
-        form = GameListForm()
+	if request.method == "POST":
+		form = GameListForm(request.POST)
+		if form.is_valid():
+			game_list = form.save(commit=False)
+			game_list.user = request.user
+			game_list.game = game  
+			game_list.save()
+			return HttpResponseRedirect(reverse('game_list_app:game_detail', args=[game_id]))
+	else:
+		form = GameListForm()
 
-    return render(request, 'list_add.html', {'form': form, 'game': game})
+	return render(request, 'list_add.html', {'form': form, 'game': game})
+
+def edit_from_list(request, game_id):
+	game = get_object_or_404(Game, pk=game_id)
+	game_list = GameList.objects.get(game=game, user=request.user)
+
+	if request.method == "POST":
+		form = GameListForm(request.POST, instance=game_list)
+		if form.is_valid():
+			form.save()
+			return HttpResponseRedirect(reverse('game_list_app:game_detail', args=[game_id]))
+	else:
+		form = GameListForm(instance=game_list)
+
+	return render(request, 'list_edit.html', {'form': form, 'game': game})
+
+def delete_from_list(request, game_id):
+	game = get_object_or_404(Game, pk=game_id)
+	try:
+		game_list = GameList.objects.get(user=request.user, game=game)
+		game_list.delete()
+		return HttpResponseRedirect(reverse("game_list_app:home"))
+	except GameList.DoesNotExist:
+		raise Http404("This game is not in this user's list.")
+
+def profil_general(request):
+	return render(request, 'profil_general_information.html', {})
+
+class ProfilGameList(generic.ListView):
+	template_name = "profil_list.html"
+	context_object_name = "games"
+
+	def get_queryset(self):
+		gameListObject = GameList.objects.filter(user=self.request.user).select_related('game')
+		return [game_list.game for game_list in gameListObject]

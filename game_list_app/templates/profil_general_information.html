@@ -1,0 +1,10 @@
+{% extends 'profil.html' %}
+
+{% block title %}Game list - Profil - General{% endblock %}
+
+{% block sub-title %}General information{% endblock %}
+
+{% block content %}
+<p>Username: {{ user }}</p>
+<p>E-mail: {{ user.email }}</p>
+{% endblock %}

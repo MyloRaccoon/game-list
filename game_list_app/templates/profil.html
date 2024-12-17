@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Game List - Profil{% endblock %}</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'profil_style.css' %}">
+</head>
+<body>
+    <header>
+        <a class="title" href={% url 'game_list_app:home' %}><h1>Game List</h1></a>
+        <h3 class=page-subtitle>{% block sub-title %}Profil{% endblock %}</h3>
+    </header>
+
+    <main>
+        
+        <nav class="lateral">
+            <ul>
+                <li><a href='{% url 'game_list_app:profil' %}'>General informations</a></li>
+                <li><a href='{% url 'game_list_app:profil_list' %}'>My list</a></li>
+                <li><a href=''>Settings</a></li>
+            </ul>
+            <form id="logout-form" method="post" action="{% url 'logout' %}">
+                {% csrf_token %}
+                <button type="submit" class="btn-logout">Log-out</button>
+            </form>
+        </nav>
+
+        <div class="content">
+            {% block content %}
+            {% endblock %}
+        </div>
+    
+    </main>
+
+    <footer>
+        <p>&copy; 2024 cool footer c:</p>
+    </footer>
+</body>
+</html>

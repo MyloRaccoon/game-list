@@ -1,0 +1,146 @@
+body {
+    background-color: #0e0e0e;
+    font-family: "Doppio One", sans-serif;
+    color: #7642EF;
+    padding: 0;
+    margin: 0;
+}
+
+body a {
+    color: #7642EF;
+}
+
+body a:visited {
+    color: #7642EF;
+}
+
+body a:active {
+    color: #7642EF;
+}
+
+header {
+    background-color: #0e0e0e;
+    display: flex;
+    align-items: center;
+    position: relative;
+    height: 80px;
+    padding: 0 20px;
+    border-bottom: 8px solid #7642EF;
+}
+
+.title {
+    padding: 10px;
+    text-decoration: none;
+}
+
+.page-subtitle {
+    position: absolute;
+    left: 50%; 
+    transform: translateX(-50%);
+    margin: 0; 
+    text-align: center; 
+}
+
+main {
+    display: flex;
+}
+
+.lateral {
+    width: 300px;
+    border-right: 3px solid #7642EF;
+    display: flex;
+    flex-direction: column;
+    justify-content: center; /* Centre horizontalement les éléments */
+    align-items: center;
+}
+
+.lateral ul {
+    margin: 0;
+    padding: 0;
+}
+
+.lateral li {
+    list-style: none;
+    width: 210px;
+    height: 40px;
+    align-content: center;
+    margin: 20px;
+    font-size: 20px;
+    border-radius: 10px;
+}
+
+.lateral a {
+    text-decoration: none;
+    width: 100%;
+    height: 100%;
+    margin-left: 10px;
+}
+
+.lateral li:hover {
+    background-color: #7642EF;
+}
+
+.lateral li:hover a{
+    color: #1f1f1f;
+}
+
+.btn-logout {
+    all: unset;
+    color: #1f1f1f;
+    background-color: #7642EF;
+    padding: 10px;
+    margin-bottom: 20px;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: inherit;
+    transition: background-color 0.3s ease;
+}
+
+.btn-logout:hover {
+    background-color: #ff0033;
+}
+
+
+.content {
+    background-color: #1f1f1f;
+    width: 100%;
+    height: 100%;
+    padding-left: 10px;
+}
+
+.btn-action {
+    text-decoration: none;
+    color: #1f1f1f;
+    border: none;
+    background-color: #7642EF;
+    padding-left: 15px;
+    padding-right: 15px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.btn-action:hover {
+    color: #1f1f1f;
+    background-color: #a08cce; 
+}
+
+.btn-action:active {
+    color: #1f1f1f;
+    background-color: #a08cce; 
+}
+
+.btn-action:visited {
+    color: #1f1f1f;
+}
+
+footer {
+    text-align: center;
+    padding: 1rem;
+    border-top: 2px solid #7642EF;
+}
+footer p {
+    margin: 0;
+}

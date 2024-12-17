@@ -6,7 +6,7 @@ app_name = "game_list_app"
 urlpatterns = [
 	path("", views.Home.as_view(), name = "home"),
 
-	path("game/", views.GameList.as_view(), name = "game_list"),
+	path("game/", views.GameListView.as_view(), name = "game_list"),
 	path("platform/", views.PlatformList.as_view(), name = "platform_list"),
 	path("publisher/", views.PublisherList.as_view(), name = "publisher_list"),
 
@@ -24,9 +24,13 @@ urlpatterns = [
 
 	path("delete-db/", views.delete_db, name = "delete_db"),
 
-	path("add-to-list/<int:game_id>", views.add_to_list, name="add_to_list"),
+	path("list-add/<int:game_id>", views.add_to_list, name="add_to_list"),
+	path("list-edit/<int:game_id>", views.edit_from_list, name = "edit_from_list"),
+	path("list-delete/<int:game_id>", views.delete_from_list, name = "delete_from_list"),
+
+	path("profil/", views.profil_general, name="profil"),
+	path("profil/list/", views.ProfilGameList.as_view(), name = "profil_list"),
 
 	path("signup/", views.signup, name="signup"),
-
 	path('error/<str:error>/', views.error, name = "error"),
 ]
