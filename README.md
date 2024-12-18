@@ -1,6 +1,6 @@
 # Game List
 
-List, rank and review the game you played !
+List, rank and review the games you played !
 
 The site isn't up yet, maybe one day it will.
 
