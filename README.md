@@ -11,6 +11,7 @@ The site isn't up yet, maybe one day it will.
   - Add / remove games to personnal list
 
 ## Still needs to be implemented:
+  - Search and filter
   - Rate / reviews list
   - Better visualisation for items
 
