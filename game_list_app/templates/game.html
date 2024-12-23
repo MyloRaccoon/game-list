@@ -3,6 +3,11 @@
 {% block title %}Game list - {{ game }}{% endblock %}
 
 {% block content %}
+
+{% if game.image is not None %}
+	<img src="{{ game.image }}" alt="{{ game.title }} image">
+{% endif %}
+
 <h1>{{ game.title }}</h1>
 <ul>
 	<li><p>Genre : {{ game.genre }}</p></li>

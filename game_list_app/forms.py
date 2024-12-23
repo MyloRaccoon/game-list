@@ -12,6 +12,7 @@ class PublisherForm(forms.Form):
             }
         )
     )
+    image = forms.ImageField(required=False)
 
 class PlatformForm(forms.Form):
     name = forms.CharField(label="Platform name", max_length=100)
@@ -25,6 +26,7 @@ class PlatformForm(forms.Form):
             }
         )
     )
+    image = forms.ImageField(required=False)
 
 class GameForm(forms.Form):
     title = forms.CharField(label="Title", max_length=200)
@@ -40,6 +42,7 @@ class GameForm(forms.Form):
             }
         )
     )
+    image = forms.ImageField(required=False)
 
 class SignUpForm(forms.Form):
     username = forms.CharField(max_length=100, 

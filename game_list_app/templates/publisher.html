@@ -4,6 +4,10 @@
 
 {% block content %}
 
+{% if publisher.image and publisher.image.url %}
+	<img src="{{ publisher.image.url }}" alt="{{ publisher.name }} image">
+{% endif %}
+
 <h1>{{ publisher.name }}</h1>
 <p>Description : {{ publisher.description }}</p>
 {% if user_is_owner or user.is_staff %}

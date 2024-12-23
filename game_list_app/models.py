@@ -6,6 +6,7 @@ from django.contrib.auth.models import User
 class Publisher(models.Model):
 	name = models.CharField(max_length = 100)
 	description = models.TextField(blank=True, null=True)
+	image = models.ImageField(upload_to="uploads/", blank=True, null=True)
 
 	add_date = models.DateTimeField(editable = False, default = timezone.now)
 	modified_date = models.DateTimeField(editable = False, default = timezone.now)
@@ -27,10 +28,11 @@ class Platform(models.Model):
 	release_date = models.IntegerField(blank=True, null=True)
 	owner = models.ForeignKey(Publisher, on_delete=models.SET_NULL, blank=True, null=True)
 	description = models.TextField(blank=True, null=True)
-	user_owner = models.ForeignKey(User, blank=True, null=True, on_delete=models.SET_NULL)
+	image = models.ImageField(upload_to="uploads/", blank=True, null=True)
 
 	add_date = models.DateTimeField(editable = False, default = timezone.now)
 	modified_date = models.DateTimeField(editable = False, default = timezone.now)
+	user_owner = models.ForeignKey(User, blank=True, null=True, on_delete=models.SET_NULL)
 
 	def save(self, *args, **kwargs):
 		if not self.id:
@@ -50,10 +52,11 @@ class Game(models.Model):
 	platform = models.ForeignKey(Platform, on_delete=models.SET_NULL, blank=True, null=True)
 	release_date = models.IntegerField(blank=True, null=True)
 	description = models.TextField(blank=True, null=True)
-	user_owner = models.ForeignKey(User, blank=True, null=True, on_delete=models.SET_NULL)
+	image = models.ImageField(upload_to="uploads/", blank=True, null=True)
 
 	add_date = models.DateTimeField(editable = False, default = timezone.now)
 	modified_date = models.DateTimeField(editable = False, default = timezone.now)
+	user_owner = models.ForeignKey(User, blank=True, null=True, on_delete=models.SET_NULL)
 
 	def save(self, *args, **kwargs):
 		if not self.id:

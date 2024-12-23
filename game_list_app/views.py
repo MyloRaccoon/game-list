@@ -90,17 +90,18 @@ class PublisherDetail(generic.DetailView):
 		return context
 
 
-def add_publisher(user, name, description):
-	publisher = Publisher(name = name, description = description)
+def add_publisher(user, name, description, image):
+	publisher = Publisher(name = name, description = description, image=image)
 	publisher.save(user = user)
 	return publisher.id
 
-def add_platform(user, name, release_date, owner, description):
+def add_platform(user, name, release_date, owner, description, image):
 	platform = Platform(
 		name = name, 
 		release_date = release_date,
 		owner = owner,
-		description = description
+		description = description,
+		image = image
 	)
 	platform.save(user = user)
 	return platform.id
@@ -112,7 +113,8 @@ def add_game(user, title, genre, publisher, platform, release_date, description)
 		publisher = publisher,
 		platform = platform,
 		release_date = release_date,
-		description = description
+		description = description,
+		image = image
 	)
 	game.save(user = user)
 	return game.id
@@ -143,7 +145,7 @@ def add_item(request, item):
 	response_url = response_url_map[item]
 
 	if request.method == "POST":
-		form = form_class(request.POST)
+		form = form_class(request.POST, request.FILES)
 		if form.is_valid():
 			item_id = process_data_function(request.user, **form.cleaned_data)
 			return HttpResponseRedirect(reverse(response_url, args=[item_id]))
@@ -272,7 +274,7 @@ def edit_item(request, item_type, pk):
 	return render(request, "edit_form.html", context)		
 
 def delete_publisher(request, pk):
-	publiser = get_object_or_404(Publisher, pk=pk)
+	publisher = get_object_or_404(Publisher, pk=pk)
 
 	if request.user == publisher.user_owner or request.user.is_staff:
 		publisher.delete()

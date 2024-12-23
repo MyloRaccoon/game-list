@@ -5,7 +5,7 @@
 {% block sub-title %}edit a {{ item }}{% endblock %}
 
 {% block form %}
-<form action="{% url 'game_list_app:edit_item' item pk %}" method="post">
+<form action="{% url 'game_list_app:edit_item' item pk %}" method="post" enctype="multipart/form-data">
     {% csrf_token %}
     {{ form }}
     <input class="btn-action" type="submit" value="Submit">
