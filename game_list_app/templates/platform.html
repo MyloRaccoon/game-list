@@ -4,6 +4,12 @@
 
 {% block content %}
 
+{% if platform.image %}
+	<img src="{{ platform.image.url }}" alt="{{ platform.name }} image">
+{% else %}
+	<p>No image available :(</p>
+{% endif %}
+
 <h1>{{ platform.name }}</h1>
 <ul>
 
@@ -18,10 +24,11 @@
 
 	<li><p>Description : {{ platform.description }}</p></li>
 
+	{% if user_is_owner or user.is_staff %}
+		<a class="btn-action" href="{% url 'game_list_app:edit_item' 'platform' platform.id %}">Edit</a>
+		<a class="btn-action" href="{% url 'game_list_app:delete_platform' platform.id %}">Delete</a>
+	{% endif %}
+
 </ul>
-{% if user_is_owner or user.is_staff %}
-	<a class="btn-action" href="{% url 'game_list_app:edit_item' 'platform' platform.id %}">Edit</a>
-	<a class="btn-action" href="{% url 'game_list_app:delete_platform' platform.id %}">Delete</a>
-{% endif %}
 
 {% endblock %}

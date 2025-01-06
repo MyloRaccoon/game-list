@@ -4,8 +4,10 @@
 
 {% block content %}
 
-{% if publisher.image and publisher.image.url %}
+{% if publisher.image %}
 	<img src="{{ publisher.image.url }}" alt="{{ publisher.name }} image">
+{% else %}
+	<p>No image available :(</p>
 {% endif %}
 
 <h1>{{ publisher.name }}</h1>

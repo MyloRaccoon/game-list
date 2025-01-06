@@ -75,6 +75,7 @@ class GameList(models.Model):
 		PLAYING = "playing", "Playing"
 		FINISHED = "finished", "Finished"
 		HUNDRED = "hundred", "100%"
+		DROPPED = "dropped", "Dropped"
 
 	user = models.ForeignKey(User, on_delete=models.CASCADE)
 	game = models.ForeignKey(Game, on_delete=models.CASCADE)
@@ -94,7 +95,7 @@ def is_game_in_user_list(user, game):
 
 def get_game_state(user, game):
 	game_list = GameList.objects.get(user=user, game=game)
-	return game_list.state
+	return game_list.get_state_display()
 
 # class Rating(models.Model):
 # 	user = models.ForeignKey(User, blank=True, null=True, on_delete=models.CASCADE)

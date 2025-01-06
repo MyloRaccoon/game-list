@@ -58,13 +58,17 @@ class GameDetail(generic.DetailView):
 
 	def get_context_data(self, **kwargs):
 		context = super().get_context_data(**kwargs)
+
 		game = self.object
+
 		user = self.request.user
-		game_in_list = is_game_in_user_list(user, game)
-		context["user_is_owner"] = game.user_owner == user
-		context["game_in_list"] = game_in_list
-		if game_in_list:
-			context["game_state"] = get_game_state(user, game)
+		if user.is_authenticated:
+			game_in_list = is_game_in_user_list(user, game)
+			context["user_is_owner"] = game.user_owner == user
+			context["game_in_list"] = game_in_list
+			if game_in_list:
+				context["game_state"] = get_game_state(user, game)
+		
 		return context
 
 class PlatformDetail(generic.DetailView):
@@ -75,7 +79,7 @@ class PlatformDetail(generic.DetailView):
 		context = super().get_context_data(**kwargs)
 		platform = self.object
 		user = self.request.user
-		context["user_is_owner"] = platform.user_owner == user 
+		context["user_is_owner"] = platform.user_owner == user if user.is_authenticated else False
 		return context
 
 class PublisherDetail(generic.DetailView):
@@ -86,7 +90,7 @@ class PublisherDetail(generic.DetailView):
 		context = super().get_context_data(**kwargs)
 		publisher = self.object
 		user = self.request.user
-		context["user_is_owner"] = publisher.user_owner == user 
+		context["user_is_owner"] = publisher.user_owner == user if user.is_authenticated else False
 		return context
 
 
@@ -106,7 +110,7 @@ def add_platform(user, name, release_date, owner, description, image):
 	platform.save(user = user)
 	return platform.id
 
-def add_game(user, title, genre, publisher, platform, release_date, description):
+def add_game(user, title, genre, publisher, platform, release_date, description, image):
 	game = Game(
 		title = title,
 		genre = genre,
@@ -160,21 +164,25 @@ def add_item(request, item):
 	return render(request, "add_form.html", context)
 
 
-def edit_publisher(pk, name, description):
+def edit_publisher(pk, name, description, image):
 	publisher = get_object_or_404(Publisher, pk=pk)
 	publisher.name = name
 	publisher.description = description
+	if image:
+		publisher.image = image
 	publisher.save()
 
-def edit_platform(pk, name, release_date, owner, description):
+def edit_platform(pk, name, release_date, owner, description, image):
 	platform = get_object_or_404(Platform, pk=pk)
 	platform.name = name
 	platform.release_date = release_date
 	platform.owner = owner
 	platform.description = description
+	if image:
+		platform.image = image
 	platform.save()
 
-def edit_game(pk, title, genre, publisher, platform, release_date, description):
+def edit_game(pk, title, genre, publisher, platform, release_date, description, image):
 	game = get_object_or_404(Game, pk=pk)
 	game.title = title
 	game.genre = genre
@@ -182,6 +190,8 @@ def edit_game(pk, title, genre, publisher, platform, release_date, description):
 	game.platform = platform
 	game.release_date = release_date
 	game.description = description
+	if image:
+		game.image = image
 	game.save()
 
 def get_filled_publisher_form(pk):
@@ -254,7 +264,7 @@ def edit_item(request, item_type, pk):
 	item = get_object_or_404(item_class_map[item_type], pk=pk)
 
 	if request.method == "POST":
-		form = form_class(request.POST)
+		form = form_class(request.POST, request.FILES)
 		if form.is_valid():
 			if request.user == item.user_owner or request.user.is_staff:
 				process_data_function(pk, **form.cleaned_data)

@@ -4,8 +4,10 @@
 
 {% block content %}
 
-{% if game.image is not None %}
-	<img src="{{ game.image }}" alt="{{ game.title }} image">
+{% if game.image and game.image.name %}
+	<img src="{{ game.image.url }}" alt="{{ game.title }} image">
+{% else %}
+	<p>No image available :(</p>
 {% endif %}
 
 <h1>{{ game.title }}</h1>
@@ -36,17 +38,21 @@
 
 	<li><p>Description : {{ game.description }}</p></li>
 </ul>
+
 {% if user.is_authenticated %}
+
 	{% if game_in_list %}
 		<p>State : {{ game_state }}</p>
 		<a class="btn-action" href="{% url 'game_list_app:edit_from_list' game.id %}">Edit from list</a>
 	{% else %}
 		<a class="btn-action" href="{% url 'game_list_app:add_to_list' game.id %}">+ Add to List</a>
 	{% endif %}
+
+	{% if user_is_owner or user.is_staff %}
+		<a class="btn-action" href="{% url 'game_list_app:edit_item' 'game' game.id %}">Edit</a>
+		<a class="btn-action" href="{% url 'game_list_app:delete_game' game.id %}">Delete</a>
+	{% endif %}
+
 {% endif %}
 
-{% if user_is_owner or user.is_staff %}
-	<a class="btn-action" href="{% url 'game_list_app:edit_item' 'game' game.id %}">Edit</a>
-	<a class="btn-action" href="{% url 'game_list_app:delete_game' game.id %}">Delete</a>
-{% endif %}
 {% endblock %}
