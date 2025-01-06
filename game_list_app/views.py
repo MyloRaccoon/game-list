@@ -94,36 +94,6 @@ class PublisherDetail(generic.DetailView):
 		return context
 
 
-def add_publisher(user, name, description, image):
-	publisher = Publisher(name = name, description = description, image=image)
-	publisher.save(user = user)
-	return publisher.id
-
-def add_platform(user, name, release_date, owner, description, image):
-	platform = Platform(
-		name = name, 
-		release_date = release_date,
-		owner = owner,
-		description = description,
-		image = image
-	)
-	platform.save(user = user)
-	return platform.id
-
-def add_game(user, title, genre, publisher, platform, release_date, description, image):
-	game = Game(
-		title = title,
-		genre = genre,
-		publisher = publisher,
-		platform = platform,
-		release_date = release_date,
-		description = description,
-		image = image
-	)
-	game.save(user = user)
-	return game.id
-
-
 def add_item(request, item):
 	form_class_map = {
 		"game": GameForm,
@@ -135,18 +105,13 @@ def add_item(request, item):
 		"platform": add_platform,
 		"publisher": add_publisher,
 	}
-	response_url_map = {
-		"game": "game_list_app:game_detail",
-		"platform": "game_list_app:platform_detail",
-		"publisher": "game_list_app:publisher_detail",
-	}
 
 	if item not in form_class_map:
 		raise Http404("Invalid item type.")
 
 	form_class = form_class_map[item]
 	process_data_function = process_data_function_map[item]
-	response_url = response_url_map[item]
+	response_url = "game_list_app:" + item + "_detail"
 
 	if request.method == "POST":
 		form = form_class(request.POST, request.FILES)
@@ -162,67 +127,6 @@ def add_item(request, item):
 	}
 
 	return render(request, "add_form.html", context)
-
-
-def edit_publisher(pk, name, description, image):
-	publisher = get_object_or_404(Publisher, pk=pk)
-	publisher.name = name
-	publisher.description = description
-	if image:
-		publisher.image = image
-	publisher.save()
-
-def edit_platform(pk, name, release_date, owner, description, image):
-	platform = get_object_or_404(Platform, pk=pk)
-	platform.name = name
-	platform.release_date = release_date
-	platform.owner = owner
-	platform.description = description
-	if image:
-		platform.image = image
-	platform.save()
-
-def edit_game(pk, title, genre, publisher, platform, release_date, description, image):
-	game = get_object_or_404(Game, pk=pk)
-	game.title = title
-	game.genre = genre
-	game.publisher = publisher
-	game.platform = platform
-	game.release_date = release_date
-	game.description = description
-	if image:
-		game.image = image
-	game.save()
-
-def get_filled_publisher_form(pk):
-	publisher = get_object_or_404(Publisher, pk=pk)
-	form = PublisherForm(initial= {
-			'name': publisher.name,
-			'description': publisher.description
-		})
-	return form
-
-def get_filled_platform_form(pk):
-	platform = get_object_or_404(Platform, pk=pk)
-	form = PlatformForm(initial= {
-			'name': platform.name,
-			'release_date': platform.release_date,
-			'owner': platform.owner,
-			'description': platform.description
-		})
-	return form
-
-def get_filled_game_form(pk):
-	game = get_object_or_404(Game, pk=pk)
-	form = GameForm(initial= {
-			'title': game.title,
-			'genre': game.genre,
-			'publisher': game.publisher,
-			'platform': game.platform,
-			'release_date': game.release_date,
-			'description': game.description
-		})
-	return form
 
 def edit_item(request, item_type, pk):
 	
@@ -241,16 +145,6 @@ def edit_item(request, item_type, pk):
 		"platform": edit_platform,
 		"publisher": edit_publisher,
 	}
-	filled_form_function_map = {
-		"game": get_filled_game_form,
-		"platform": get_filled_platform_form,
-		"publisher": get_filled_publisher_form
-	}
-	response_url_map = {
-		"game": "game_list_app:game_detail",
-		"platform": "game_list_app:platform_detail",
-		"publisher": "game_list_app:publisher_detail",
-	}
 
 	if item_type not in item_class_map:
 		raise Http404("Invalid item type.")
@@ -258,8 +152,7 @@ def edit_item(request, item_type, pk):
 	form_class = form_class_map[item_type]
 	
 	process_data_function = process_data_function_map[item_type]
-	response_url = response_url_map[item_type]
-	filled_form_function = filled_form_function_map[item_type]
+	response_url = "game_list_app:" + item_type + "_detail"
 
 	item = get_object_or_404(item_class_map[item_type], pk=pk)
 
@@ -273,7 +166,8 @@ def edit_item(request, item_type, pk):
 				return HttpResponseRedirect(reverse("game_list_app:error", args=["You don't have the autorisation to edit this item"]))
 			
 	else:
-		form = filled_form_function(pk)
+		form = form_class()
+		form.fill(pk)
 
 	context = {
 		'form': form,

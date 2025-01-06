@@ -1,6 +1,7 @@
 from django.db import models
 from django.utils import timezone
 from django.contrib.auth.models import User
+from django.shortcuts import get_object_or_404
 
 # Create your models here.
 class Publisher(models.Model):
@@ -97,11 +98,63 @@ def get_game_state(user, game):
 	game_list = GameList.objects.get(user=user, game=game)
 	return game_list.get_state_display()
 
-# class Rating(models.Model):
-# 	user = models.ForeignKey(User, blank=True, null=True, on_delete=models.CASCADE)
-# 	game = models.ForeignKey(Game, on_delete=models.CASCADE)
-# 	grade = models.IntegerField()
-	
-# class Review(models.Model):
-# 	rating = models.ForeignKey(Rating, on_delete=models.CASCADE)
-# 	text = models.CharField(max_length = 1000)
+
+def add_publisher(user, name, description, image):
+	publisher = Publisher(name = name, description = description, image=image)
+	publisher.save(user = user)
+	return publisher.id
+
+def add_platform(user, name, release_date, owner, description, image):
+	platform = Platform(
+		name = name, 
+		release_date = release_date,
+		owner = owner,
+		description = description,
+		image = image
+	)
+	platform.save(user = user)
+	return platform.id
+
+def add_game(user, title, genre, publisher, platform, release_date, description, image):
+	game = Game(
+		title = title,
+		genre = genre,
+		publisher = publisher,
+		platform = platform,
+		release_date = release_date,
+		description = description,
+		image = image
+	)
+	game.save(user = user)
+	return game.id
+
+
+def edit_publisher(pk, name, description, image):
+	publisher = get_object_or_404(Publisher, pk=pk)
+	publisher.name = name
+	publisher.description = description
+	if image:
+		publisher.image = image
+	publisher.save()
+
+def edit_platform(pk, name, release_date, owner, description, image):
+	platform = get_object_or_404(Platform, pk=pk)
+	platform.name = name
+	platform.release_date = release_date
+	platform.owner = owner
+	platform.description = description
+	if image:
+		platform.image = image
+	platform.save()
+
+def edit_game(pk, title, genre, publisher, platform, release_date, description, image):
+	game = get_object_or_404(Game, pk=pk)
+	game.title = title
+	game.genre = genre
+	game.publisher = publisher
+	game.platform = platform
+	game.release_date = release_date
+	game.description = description
+	if image:
+		game.image = image
+	game.save()

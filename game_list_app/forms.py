@@ -14,6 +14,11 @@ class PublisherForm(forms.Form):
     )
     image = forms.ImageField(required=False)
 
+    def fill(self, pk):
+        publisher = Publisher.objects.get(pk=pk)
+        self.initial['name'] = publisher.name
+        self.initial['description'] = publisher.description
+
 class PlatformForm(forms.Form):
     name = forms.CharField(label="Platform name", max_length=100)
     release_date = forms.IntegerField(required=False)
@@ -27,6 +32,13 @@ class PlatformForm(forms.Form):
         )
     )
     image = forms.ImageField(required=False)
+
+    def fill(self, pk):
+        platform = Platform.objects.get(pk=pk)
+        self.initial['name'] = platform.name
+        self.initial['release_date'] = platform.release_date
+        self.initial['owner'] = platform.owner
+        self.initial['description'] = platform.description
 
 class GameForm(forms.Form):
     title = forms.CharField(label="Title", max_length=200)
@@ -43,6 +55,16 @@ class GameForm(forms.Form):
         )
     )
     image = forms.ImageField(required=False)
+
+    def fill(self, pk):
+        game = Game.objects.get(pk=pk)
+        self.initial['title'] = game.title
+        self.initial['genre'] = game.genre
+        self.initial['publisher'] = game.publisher
+        self.initial['platform'] = game.platform
+        self.initial['release_date'] = game.release_date
+        self.initial['description'] = game.description
+
 
 class SignUpForm(forms.Form):
     username = forms.CharField(max_length=100, 
