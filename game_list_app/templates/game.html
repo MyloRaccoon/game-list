@@ -44,7 +44,12 @@
 	{% if game_list %}
 		<p>State : {{ game_state }}</p>
 		<a class="btn-action" href="{% url 'game_list_app:edit_from_list' game.id %}">Edit from list</a>
-		{% if game_reviewed %}
+		{% if review %}
+			<div class="my_review">
+				<p>My Review :</p>
+				<p>Rate : {{ review.rate }}</p>
+				<p>{{ review.review }}</p>
+			</div>
 			<a class="btn-action" href="{% url 'game_list_app:edit_review' game_list.id %}">Edit Review</a>
 		{% else %}
 			<a class="btn-action" href="{% url 'game_list_app:add_review' game_list.id %}">Review</a>

@@ -65,12 +65,13 @@ class GameDetail(generic.DetailView):
 
 		user = self.request.user
 		if user.is_authenticated:
-			game_list = GameList.objects.filter(user=user, game=game)[0]
 			context["user_is_owner"] = game.user_owner == user
-			context["game_list"] = game_list
-			if game_list:
+			if is_game_in_user_list(user, game):
+				game_list = GameList.objects.filter(user=user, game=game)[0]
+				context["game_list"] = game_list
 				context["game_state"] = get_game_state(user, game)
-				context["game_reviewed"] = is_game_reviewed(game_list)
+				if is_game_reviewed(game_list):
+					context["review"] = Review.objects.filter(game_list=game_list)[0]
 
 		return context
 
