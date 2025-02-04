@@ -41,9 +41,14 @@
 
 {% if user.is_authenticated %}
 
-	{% if game_in_list %}
+	{% if game_list %}
 		<p>State : {{ game_state }}</p>
 		<a class="btn-action" href="{% url 'game_list_app:edit_from_list' game.id %}">Edit from list</a>
+		{% if game_reviewed %}
+			<a class="btn-action" href="{% url 'game_list_app:edit_review' game_list.id %}">Edit Review</a>
+		{% else %}
+			<a class="btn-action" href="{% url 'game_list_app:add_review' game_list.id %}">Review</a>
+		{% endif %}
 	{% else %}
 		<a class="btn-action" href="{% url 'game_list_app:add_to_list' game.id %}">+ Add to List</a>
 	{% endif %}

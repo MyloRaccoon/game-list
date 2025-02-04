@@ -1,0 +1,49 @@
+{% extends 'form_template.html' %}
+
+{% block title %}Game list - Edit Review{% endblock %}
+
+{% block sub-title %}Edit {{ game }} Review{% endblock %}
+
+{% block form %}
+<form method="post">
+    {% csrf_token %}
+    <p>
+        {{ form.rate.label_tag }}<br>
+        {{ form.rate }}<br>
+        {{ form.review.label_tag }}<br>
+        {{ form.review }}
+    </p>
+    <button class="btn-action" type="submit">Save</button>
+    <a class="btn-action" href="{% url 'game_list_app:delete_review' game_list_id %}"> Delete this review </a>
+</form>
+{% endblock %}
+
+{% block side %}
+<ul>
+    <li><p>Genre : {{ game.genre }}</p></li>
+
+    {% if game.publisher is not None %}
+    <li>
+        <p>Publisher : <a href="{% url 'game_list_app:publisher_detail' game.publisher.id %}"> {{ game.publisher }} </a></p>
+    </li>
+    {% else %}
+    <li>
+        <p>Publisher : {{ game.publisher }} </a></p>
+    </li>
+    {% endif %}
+
+    {% if game.platform is not None %}
+    <li>
+        <p>Platform : <a href="{% url 'game_list_app:platform_detail' game.platform.id %}"> {{ game.platform }} </a></p>
+    </li>
+    {% else %}
+    <li>
+        <p>Platform : {{ game.platform }} </a></p>
+    </li>
+    {% endif %}
+
+    <li><p>Release date : {{ game.release_date }}</p></li>
+
+    <li><p>Description : {{ game.description }}</p></li>
+</ul>
+{% endblock %}

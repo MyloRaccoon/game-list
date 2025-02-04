@@ -28,6 +28,10 @@ urlpatterns = [
 	path("list-edit/<int:game_id>", views.edit_from_list, name = "edit_from_list"),
 	path("list-delete/<int:game_id>", views.delete_from_list, name = "delete_from_list"),
 
+	path("review-add/<int:game_list_id>", views.add_review, name="add_review"),
+	path("review-edit/<int:game_list_id>", views.edit_review, name="edit_review"),
+	path("review-delete/<int:game_list_id>", views.delete_review, name="delete_review"),
+
 	path("profil/", views.profil_general, name="profil"),
 	path("profil/list/", views.ProfilGameList.as_view(), name = "profil_list"),
 
