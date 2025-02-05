@@ -1,0 +1,145 @@
+body {
+    background-color: #0e0e0e;
+    font-family: "Doppio One", sans-serif;
+    color: #7642EF;
+    padding: 0;
+    margin: 0;
+}
+
+body a {
+    color: #7642EF;
+}
+
+body a:visited {
+    color: #7642EF;
+}
+
+body a:active {
+    color: #7642EF;
+}
+
+header {
+    background-color: #0e0e0e;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    height: 80px;
+}
+
+.title {
+    padding: 10px;
+    text-decoration: none;
+}
+
+.page-subtitle {
+    margin: auto;
+    height: auto;
+    text-align: center; 
+}
+
+
+.account-btn {
+    display: flex;
+    gap: 10px;
+    justify-content: flex-end;
+    margin-right: 10px;
+}
+
+.account-btn a,
+.account-btn button {
+    text-decoration: none;
+    color: #7642EF;
+    border: none;
+    background-color: #1f1f1f;
+    padding-left: 15px;
+    padding-right: 15px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.account-btn a:hover,
+.account-btn button:hover {
+    background-color: #3E3E3E; 
+}
+
+.account-btn a:active,
+.account-btn button:active {
+    background-color: #555555; 
+}
+
+
+
+main {
+    display: flex;
+    justify-content: center;
+    margin: 0px;
+    padding: 50px;
+    padding-bottom: 150px;
+    background-color: #1f1f1f;
+}
+
+.item_pannel ul {
+    list-style: none;
+}
+
+
+.item_pannel {
+    margin: 10px;
+    width: 85%;
+    border: 5px solid #0e0e0e;
+    background-color: #0e0e0e;
+    border-radius: 10px;
+    padding: 20px;
+    justify-content: center;
+}
+
+.item_pannel li {
+    width: 100%;
+    text-align: center;
+}
+
+.left_pannel {
+    margin: 10px;
+    width: 100%;
+    padding: 20px;
+}
+
+.btn-action {
+    text-decoration: none;
+    color: #1f1f1f;
+    border: none;
+    background-color: #7642EF;
+    padding-left: 15px;
+    padding-right: 15px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.btn-action:hover {
+    color: #1f1f1f;
+    background-color: #a08cce; 
+}
+
+.btn-action:active {
+    color: #1f1f1f;
+    background-color: #a08cce; 
+}
+
+.btn-action:visited {
+    color: #1f1f1f;
+}
+
+footer {
+    text-align: center;
+    padding: 1rem;
+    border-top: 2px solid #7642EF;
+}
+footer p {
+    margin: 0;
+}

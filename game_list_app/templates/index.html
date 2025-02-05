@@ -28,10 +28,6 @@
                 <a href="{% url 'game_list_app:signup'%}">Sign up</a>
             {% else %}
                 <a href="{% url 'game_list_app:profil'%}">Profil</a>
-                <!-- <form id="logout-form" method="post" action="{% url 'logout' %}">
-                 {% csrf_token %}
-                 <button type="submit" class="btn btn-link">Log-out</button>
-               </form> -->
             {% endif %}
         </div>
     </header>

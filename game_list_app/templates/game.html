@@ -1,68 +1,92 @@
-{% extends 'index.html' %}
+{% extends 'item_page.html' %}
 
 {% block title %}Game list - {{ game }}{% endblock %}
 
+{% block sub-title %}{{ game }}{% endblock %}
+
 {% block content %}
+	{% block item_pannel %}
 
-{% if game.image and game.image.name %}
-	<img src="{{ game.image.url }}" alt="{{ game.title }} image">
-{% else %}
-	<p>No image available :(</p>
-{% endif %}
+		{% block item_name %}{{ game.title }}{% endblock %}
 
-<h1>{{ game.title }}</h1>
-<ul>
-	<li><p>Genre : {{ game.genre }}</p></li>
+		{% block item_image %}
+			{% if game.image and game.image.name %}
+				<img src="{{ game.image.url }}" alt="{{ game.title }} image">
+			{% else %}
+				<p>No image available :(</p>
+			{% endif %}
+		{% endblock %}
 
-	{% if game.publisher is not None %}
-	<li>
-		<p>Publisher : <a href="{% url 'game_list_app:publisher_detail' game.publisher.id %}"> {{ game.publisher }} </a></p>
-	</li>
-	{% else %}
-	<li>
-		<p>Publisher : {{ game.publisher }} </a></p>
-	</li>
-	{% endif %}
+		{% block item_info %}
+			<ul>
+				<li><p>Genre : {{ game.genre }}</p></li>
 
-	{% if game.platform is not None %}
-	<li>
-		<p>Platform : <a href="{% url 'game_list_app:platform_detail' game.platform.id %}"> {{ game.platform }} </a></p>
-	</li>
-	{% else %}
-	<li>
-		<p>Platform : {{ game.platform }} </a></p>
-	</li>
-	{% endif %}
+				{% if game.publisher is not None %}
+				<li>
+					<p>Publisher : <a href="{% url 'game_list_app:publisher_detail' game.publisher.id %}"> {{ game.publisher }} </a></p>
+				</li>
+				{% else %}
+				<li>
+					<p>Publisher : {{ game.publisher }} </a></p>
+				</li>
+				{% endif %}
 
-	<li><p>Release date : {{ game.release_date }}</p></li>
+				{% if game.platform is not None %}
+				<li>
+					<p>Platform : <a href="{% url 'game_list_app:platform_detail' game.platform.id %}"> {{ game.platform }} </a></p>
+				</li>
+				{% else %}
+				<li>
+					<p>Platform : {{ game.platform }} </a></p>
+				</li>
+				{% endif %}
 
-	<li><p>Description : {{ game.description }}</p></li>
-</ul>
+				<li><p>Release date : {{ game.release_date }}</p></li>
 
-{% if user.is_authenticated %}
+				<li><p>Description : </br>{{ game.description }}</p></li>
+			</ul>
+		{% endblock %}
 
-	{% if game_list %}
-		<p>State : {{ game_state }}</p>
-		<a class="btn-action" href="{% url 'game_list_app:edit_from_list' game.id %}">Edit from list</a>
-		{% if review %}
-			<div class="my_review">
-				<p>My Review :</p>
-				<p>Rate : {{ review.rate }}</p>
-				<p>{{ review.review }}</p>
-			</div>
-			<a class="btn-action" href="{% url 'game_list_app:edit_review' game_list.id %}">Edit Review</a>
+		{% block btn_item %}
+			{% if user.is_authenticated %}
+				{% if user_is_owner or user.is_staff %}
+					<a class="btn-action" href="{% url 'game_list_app:edit_item' 'game' game.id %}">Edit</a>
+					<a class="btn-action" href="{% url 'game_list_app:delete_game' game.id %}">Delete</a>
+				{% endif %}
+			{% endif %}
+		{% endblock %}
+	{% endblock %}
+
+	{% block list_gestion %}
+		{% if user.is_authenticated %}
+			{% if game_list %}
+				<p>This game is on your list !</p>
+				<p>State : {{ game_state }}</p>
+				<a class="btn-action" href="{% url 'game_list_app:edit_from_list' game.id %}">Edit from list</a>
+			{% else %}
+				<a class="btn-action" href="{% url 'game_list_app:add_to_list' game.id %}">+ Add to List</a>
+			{% endif %}
 		{% else %}
-			<a class="btn-action" href="{% url 'game_list_app:add_review' game_list.id %}">Review</a>
+			<p>you need to be logged-in to add a game to your list</p>
 		{% endif %}
-	{% else %}
-		<a class="btn-action" href="{% url 'game_list_app:add_to_list' game.id %}">+ Add to List</a>
-	{% endif %}
+	{% endblock %}
 
-	{% if user_is_owner or user.is_staff %}
-		<a class="btn-action" href="{% url 'game_list_app:edit_item' 'game' game.id %}">Edit</a>
-		<a class="btn-action" href="{% url 'game_list_app:delete_game' game.id %}">Delete</a>
-	{% endif %}
-
-{% endif %}
-
+	{% block review_section %}
+		{% if user.is_authenticated %}
+			{% if review %}
+				<div class="my_review">
+					<p>My Review :</p>
+					<p>Rate : {{ review.rate }}</p>
+					<p>{{ review.review }}</p>
+				</div>
+				<a class="btn-action" href="{% url 'game_list_app:edit_review' game_list.id %}">Edit Review</a>
+			{% elif game_list %}
+				<a class="btn-action" href="{% url 'game_list_app:add_review' game_list.id %}">Review</a>
+			{% else %}
+				<p>You need to add the game in your list before writing a review</p>
+			{% endif %}
+		{% else %}
+			<p>you need to be logged-in to write a review</p>
+		{% endif %}
+	{% endblock %}
 {% endblock %}

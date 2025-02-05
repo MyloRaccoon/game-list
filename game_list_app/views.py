@@ -70,7 +70,7 @@ class GameDetail(generic.DetailView):
 				game_list = GameList.objects.filter(user=user, game=game)[0]
 				context["game_list"] = game_list
 				context["game_state"] = get_game_state(user, game)
-				if is_game_reviewed(game_list):
+				if is_game_reviewed(game_list):	
 					context["review"] = Review.objects.filter(game_list=game_list)[0]
 
 		return context
