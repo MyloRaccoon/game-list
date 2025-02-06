@@ -60,10 +60,11 @@
 	{% block list_gestion %}
 		{% if user.is_authenticated %}
 			{% if game_list %}
-				<p>This game is on your list !</p>
+				<h2>This game is on your list !</h2>
 				<p>State : {{ game_state }}</p>
 				<a class="btn-action" href="{% url 'game_list_app:edit_from_list' game.id %}">Edit from list</a>
 			{% else %}
+				<h2>This game is not on your list !</h2>
 				<a class="btn-action" href="{% url 'game_list_app:add_to_list' game.id %}">+ Add to List</a>
 			{% endif %}
 		{% else %}
@@ -81,7 +82,7 @@
 				</div>
 				<a class="btn-action" href="{% url 'game_list_app:edit_review' game_list.id %}">Edit Review</a>
 			{% elif game_list %}
-				<a class="btn-action" href="{% url 'game_list_app:add_review' game_list.id %}">Review</a>
+				<a class="btn-action" href="{% url 'game_list_app:add_review' game_list.id %}">Write Review</a>
 			{% else %}
 				<p>You need to add the game in your list before writing a review</p>
 			{% endif %}

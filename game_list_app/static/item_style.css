@@ -70,9 +70,54 @@ header {
     background-color: #555555; 
 }
 
-
-
 main {
+    display: flex;
+}
+
+.item_pannel {
+    background-color: #1f1f1f;
+    padding: 50px;
+}
+
+.item_card {
+    width: 500px;
+    padding: 10px;
+    border: 5px solid #0e0e0e;
+    background-color: #0e0e0e;
+    border-radius: 10px;
+}
+.item_card ul {
+    list-style: none;
+}
+.item_pannel li {
+    text-align: left;
+}
+.item_name {
+    text-align: center;
+}
+.item_image  {
+    text-align: center;
+}
+.btn_item {
+    text-align: center;
+}
+
+
+
+.left_pannel {
+    border-left: 5px solid #7642EF;
+    width: 100%;
+}
+.list_gestion {
+    padding: 30px;
+    border-bottom: 3px solid #7642EF;
+    text-align: center;
+}
+.review_section {
+    padding: 30px;
+}
+
+/*main {
     display: flex;
     justify-content: center;
     margin: 0px;
@@ -88,6 +133,7 @@ main {
 
 .item_pannel {
     margin: 10px;
+    margin-right: 100px;
     width: 85%;
     border: 5px solid #0e0e0e;
     background-color: #0e0e0e;
@@ -105,7 +151,9 @@ main {
     margin: 10px;
     width: 100%;
     padding: 20px;
-}
+    background-color: #0e0e0e;
+    border-left: 5px solid #7642EF;
+}*/
 
 .btn-action {
     text-decoration: none;

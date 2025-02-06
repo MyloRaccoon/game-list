@@ -23,12 +23,14 @@
 
     <main>
         <div class="item_pannel">
-            <ul>
-                <li><h1 class="item_nam">{% block item_name %}{% endblock %}</h1></li>
-                <li><div class="item_image">{% block item_image %}{% endblock %}</div></li>
-                <li><p class="item_info">{% block item_info %}{% endblock %}</p></li>
-                <li><div class="btn_item">{% block btn_item %}{% endblock %}</div></li>
-            </ul>
+            <div class="item_card">
+                <ul>
+                    <li><h1 class="item_name">{% block item_name %}{% endblock %}</h1></li>
+                    <li><div class="item_image">{% block item_image %}{% endblock %}</div></li>
+                    <li><p class="item_info">{% block item_info %}{% endblock %}</p></li>
+                    <li><div class="btn_item">{% block btn_item %}{% endblock %}</div></li>
+                </ul>
+            </div>
         </div>
         <div class="left_pannel">
             <div class="list_gestion">

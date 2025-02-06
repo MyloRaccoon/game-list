@@ -15,6 +15,8 @@ The site isn't up yet, maybe one day it will.
   - Better items page
   - Stats of a game
   - Visualisation of other people list
+  - Profil customization
+  - Account deletion
 
 ## Bonus features:
 (some ideas that won't necessary be implemented)
